@@ -31,7 +31,7 @@ ArgumentHandler::ArgumentHandler(int &argc, char **&argv) {
 	init_raw_arguments_(argc, argv);
 }
 
-parsed_pair ArgumentHandler::parse_all_(raw_arguments raw_arguments)
+parsed_pair ArgumentHandler::parse_all_(raw_arguments& raw_arguments)
 {
 	for (std::string_view& arg : raw_arguments)
 	{

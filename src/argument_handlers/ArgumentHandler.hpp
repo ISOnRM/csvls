@@ -61,7 +61,7 @@ class ArgumentHandler {
     /*
         Parses all arguments into options and targets
     */
-    parsed_pair parse_all_(raw_arguments raw_arguments);
+    parsed_pair parse_all_(raw_arguments& raw_arguments);
 
 	/*
 		Deduces a full option (e.g. --show-owner) when given an arg
