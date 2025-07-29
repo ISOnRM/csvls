@@ -16,6 +16,7 @@ void ArgumentHandler::init_raw_arguments_(int &argc, char **&argv) {
 
 ArgumentHandler::ArgumentHandler(int &argc, char **&argv) {
 	init_raw_arguments_(argc, argv);
+	
 }
 
 parsed_pair ArgumentHandler::parse_all_(raw_arguments raw_arguments)
@@ -33,7 +34,7 @@ parsed_pair ArgumentHandler::parse_all_(raw_arguments raw_arguments)
         }
 		// Else, it’s a target (positional argument)
 		else {
-			parsed_targets_.emplace(parse_target_(arg));
+			parse_target_(arg);
 		}
     }
 	return {parsed_options_, parsed_targets_};
@@ -44,17 +45,17 @@ void ArgumentHandler::parse_option_(std::string_view& arg) {
 	size_t pos = arg.find_first_not_of('-');
 	arg.remove_prefix(pos);
 	if (arg.contains('-')) {
-		parsed_options_.emplace(deduce_full_option_(arg));
+		parsed_options_.emplace_back(deduce_full_option_(arg));
 	}
 	else {
 		for (const char& c : arg) {
-			parsed_options_.emplace(deduce_option_(c));
+			parsed_options_.emplace_back(deduce_option_(c));
 		}
 	}
 }
 
-std::string ArgumentHandler::parse_target_(const std::string_view& arg) {
-	return static_cast<std::string>(arg);
+void ArgumentHandler::parse_target_(const std::string_view& arg) {
+	parsed_targets_.emplace(arg);
 }
 
 parsed_pair ArgumentHandler::get_parsed() {

@@ -2,6 +2,7 @@
 // An enum for parsing command line arguments
 #ifndef OPTION_H
 #define OPTION_H
+#define AMOUNT_OF_OPTIONS 11
 
 enum class Option {
     ShowDev,        // st_dev

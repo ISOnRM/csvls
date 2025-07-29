@@ -5,15 +5,16 @@
 #ifndef ARGUMENTHANDLER_H
 #define ARGUMENTHANDLER_H
 
-#include "Option.hpp"
 #include <forward_list>
 #include <unordered_set>
 #include <string>
 #include <string_view>
 #include <tuple>
+#include "Option.hpp"
+#include "OrderedUnique.hpp"
 
 using raw_arguments = std::forward_list<std::string_view>;
-using parsed_options = std::unordered_set<Option>;
+using parsed_options = OrderedUnique<Option>;
 using parsed_targets = std::unordered_set<std::string>;
 using parsed_pair = std::pair<parsed_options, parsed_targets>;
 
@@ -32,7 +33,7 @@ class ArgumentHandler {
   private:
     // private_members
     raw_arguments raw_arguments_;
-    parsed_options parsed_options_;
+    parsed_options parsed_options_{AMOUNT_OF_OPTIONS};
     parsed_targets parsed_targets_;
     // private methods
 
@@ -49,7 +50,7 @@ class ArgumentHandler {
     /*
         Parses a single target (Non option argument)
     */
-    std::string parse_target_(const std::string_view& arg);
+    void parse_target_(const std::string_view& arg);
 
     /*
         Parses all arguments into options and targets
