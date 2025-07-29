@@ -44,7 +44,7 @@ class ArgumentHandler {
     /*
         Parses a single optional argument
     */
-    Option parse_option_(std::string_view& arg);
+    void parse_option_(std::string_view& arg);
 
     /*
         Parses a single target (Non option argument)
@@ -54,8 +54,17 @@ class ArgumentHandler {
     /*
         Parses all arguments into options and targets
     */
-    parsed_pair parse_all_options_and_targets_(raw_arguments raw_arguments);
+    parsed_pair parse_all_(raw_arguments raw_arguments);
 
+	/*
+		Deduces a full option (e.g. --show-owner) when given an arg
+	*/
+	Option deduce_full_option_(const std::string_view& arg);
+
+	/*
+		Deduces an option (e.g. -O) when given char
+	*/
+	Option deduce_option_(const char c);
 };
 
 #endif

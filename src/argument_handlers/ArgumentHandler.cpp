@@ -18,7 +18,7 @@ ArgumentHandler::ArgumentHandler(int &argc, char **&argv) {
 	init_raw_arguments_(argc, argv);
 }
 
-parsed_pair ArgumentHandler::parse_all_options_and_targets_(raw_arguments raw_arguments)
+parsed_pair ArgumentHandler::parse_all_(raw_arguments raw_arguments)
 {
 	for (std::string_view& arg : raw_arguments)
 	{
@@ -28,8 +28,8 @@ parsed_pair ArgumentHandler::parse_all_options_and_targets_(raw_arguments raw_ar
 		// If an argument starts with "-" or "--", then
 		// it is an option, thus send it to respective method
 		// and emplace it to respective list
-        if (arg.starts_with("-") || arg.starts_with("--")) {
-            parsed_options_.emplace(parse_option_(arg));
+        if (arg.starts_with("-")) {
+			parse_option_(arg);
         }
 		// Else, it’s a target (positional argument)
 		else {
@@ -39,24 +39,18 @@ parsed_pair ArgumentHandler::parse_all_options_and_targets_(raw_arguments raw_ar
 	return {parsed_options_, parsed_targets_};
 }
 
-Option ArgumentHandler::parse_option_(std::string_view& arg) {
+void ArgumentHandler::parse_option_(std::string_view& arg) {
 	// pretty straightforward no expl needed
 	size_t pos = arg.find_first_not_of('-');
 	arg.remove_prefix(pos);
-	if (arg == "show-dev" || arg == "d") return Option::ShowDev;
-	else if (arg == "show-inode" || arg == "I") return Option::ShowInode;
-	else if (arg == "show-type" || arg == "t") return Option::ShowType;
-	else if (arg == "show-perms" || arg == "p") return Option::ShowPerms;
-	else if (arg == "show-owner" || arg == "O") return Option::ShowOwner;
-	else if (arg == "show-group" || arg == "g") return Option::ShowGroup;
-	else if (arg == "show-size" || arg == "s") return Option::ShowSize;
-	else if (arg == "show-blocks" || arg == "b") return Option::ShowBlocks;
-	else if (arg == "show-access-time" || arg == "a") return Option::ShowAccessTime;
-	else if (arg == "show-mod-time" || arg == "m") return Option::ShowModTime;
-	else if (arg == "show-meta-mod-time" || arg == "M") return Option::ShowMetaModTime;
-	else throw std::invalid_argument(
-		std::format("Option {} not found\n", arg)
-	);
+	if (arg.contains('-')) {
+		parsed_options_.emplace(deduce_full_option_(arg));
+	}
+	else {
+		for (const char& c : arg) {
+			parsed_options_.emplace(deduce_option_(c));
+		}
+	}
 }
 
 std::string ArgumentHandler::parse_target_(const std::string_view& arg) {
@@ -64,5 +58,39 @@ std::string ArgumentHandler::parse_target_(const std::string_view& arg) {
 }
 
 parsed_pair ArgumentHandler::get_parsed() {
-	return parse_all_options_and_targets_(raw_arguments_);
+	return parse_all_(raw_arguments_);
+}
+
+Option ArgumentHandler::deduce_full_option_(const std::string_view& arg) {
+	if (arg == "show-dev") return Option::ShowDev;
+	else if (arg == "show-inode") return Option::ShowInode;
+	else if (arg == "show-type") return Option::ShowType;
+	else if (arg == "show-perms") return Option::ShowPerms;
+	else if (arg == "show-owner") return Option::ShowOwner;
+	else if (arg == "show-group") return Option::ShowGroup;
+	else if (arg == "show-size") return Option::ShowSize;
+	else if (arg == "show-blocks") return Option::ShowBlocks;
+	else if (arg == "show-access-time") return Option::ShowAccessTime;
+	else if (arg == "show-mod-time") return Option::ShowModTime;
+	else if (arg == "show-meta-mod-time") return Option::ShowMetaModTime;
+	else throw std::invalid_argument(
+		std::format("Option {} not found\n", arg)
+	);
+}
+
+Option ArgumentHandler::deduce_option_(const char c) {
+    switch (c) {
+    case 'd': return Option::ShowDev;
+    case 'I': return Option::ShowInode;
+    case 't': return Option::ShowType;
+    case 'p': return Option::ShowPerms;
+    case 'O': return Option::ShowOwner;
+    case 'g': return Option::ShowGroup;
+    case 's': return Option::ShowSize;
+    case 'b': return Option::ShowBlocks;
+    case 'a': return Option::ShowAccessTime;
+    case 'm': return Option::ShowModTime;
+    case 'M': return Option::ShowMetaModTime;
+    default: throw std::invalid_argument(std::format("Option {} not found\n", c));
+    }
 }
