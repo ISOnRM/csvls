@@ -3,7 +3,7 @@
 #include "ArgumentHandler.hpp"
 #include "Option.hpp"
 
-std::ostream& operator<<(std::ostream& o, parsed_arguments& a) {
+std::ostream& operator<<(std::ostream& o, parsed_options& a) {
 	for (const Option& arg : a) {
 		o << static_cast<int>(arg) << ' ';
 	}
@@ -11,7 +11,7 @@ std::ostream& operator<<(std::ostream& o, parsed_arguments& a) {
 	return o;
 }
 
-std::ostream &operator<<(std::ostream &o, parsed_positional_arguments &a) {
+std::ostream &operator<<(std::ostream &o, parsed_targets &a) {
     for (const std::string &arg : a) {
         o << arg << ' ';
     }

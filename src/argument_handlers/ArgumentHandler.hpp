@@ -1,4 +1,4 @@
-// ArgumentHandler.h
+// ArgumentHandler.hpp
 // Class that handles how command line arguments
 // Are proccessed and then returned as a container of
 // Options enum
@@ -13,9 +13,9 @@
 #include <tuple>
 
 using raw_arguments = std::forward_list<std::string_view>;
-using parsed_arguments = std::unordered_set<Option>;
-using parsed_positional_arguments = std::unordered_set<std::string>;
-using parsed_pair = std::pair<parsed_arguments, parsed_positional_arguments>;
+using parsed_options = std::unordered_set<Option>;
+using parsed_targets = std::unordered_set<std::string>;
+using parsed_pair = std::pair<parsed_options, parsed_targets>;
 
 class ArgumentHandler {
   public:
@@ -32,8 +32,8 @@ class ArgumentHandler {
   private:
     // private_members
     raw_arguments raw_arguments_;
-    parsed_arguments parsed_arguments_;
-    parsed_positional_arguments parsed_positional_arguments_;
+    parsed_options parsed_options_;
+    parsed_targets parsed_targets_;
     // private methods
 
     /*
@@ -42,23 +42,20 @@ class ArgumentHandler {
     void init_raw_arguments_(int &argc, char **&argv);
 
     /*
-        Parses the given list
-        and returns the list of Options
+        Parses a single optional argument
     */
-    Option parse_argument_(std::string_view& arg);
+    Option parse_option_(std::string_view& arg);
 
     /*
-        Parses the given list
-        and returns the list of Positional arguments
+        Parses a single target (Non option argument)
     */
-    std::string parse_positional_argument_(const std::string_view& arg);
+    std::string parse_target_(const std::string_view& arg);
 
     /*
-        Parses the given list
-        and returns a pair of lists with
-        Optional and Positional arguments
+        Parses all arguments into options and targets
     */
-    parsed_pair parse_all_arguments_(raw_arguments raw_arguments);
+    parsed_pair parse_all_options_and_targets_(raw_arguments raw_arguments);
+
 };
 
 #endif
