@@ -20,7 +20,8 @@ enum class Option {
     ShowDev,         // st_dev
 
     // other options
-    Sort // sort the list of options
+    Sort, // sort the list of options
+	Help, // show help menu
 };
 
 #endif

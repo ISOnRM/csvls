@@ -12,11 +12,23 @@ void ArgumentHandler::init_raw_arguments_(int &argc, char **&argv) {
     for (size_t i = 1; i < argc; ++i) { // skip argv[0]
         raw_arguments_.emplace_front(argv[i]);
     }
+
+	// check whether targets are present or not
+	bool has_target = std::any_of(
+		raw_arguments_.begin(),
+		raw_arguments_.end(),
+		[](const std::string_view &a){return !a.starts_with('-');}
+	);
+
+	
+
+	if (!has_target) {
+		throw std::invalid_argument("No targets specified");
+	}
 }
 
 ArgumentHandler::ArgumentHandler(int &argc, char **&argv) {
 	init_raw_arguments_(argc, argv);
-	
 }
 
 parsed_pair ArgumentHandler::parse_all_(raw_arguments raw_arguments)
@@ -75,7 +87,8 @@ parsed_pair ArgumentHandler::get_parsed() {
 }
 
 Option ArgumentHandler::deduce_full_option_(const std::string_view& arg) {
-    if (arg == "show-dev") return Option::ShowDev;
+    if (arg == "help") return Option::Help;
+    else if (arg == "show-dev") return Option::ShowDev;
     else if (arg == "show-inode") return Option::ShowInode;
     else if (arg == "show-type") return Option::ShowType;
     else if (arg == "show-perms") return Option::ShowPerms;
@@ -95,6 +108,7 @@ Option ArgumentHandler::deduce_full_option_(const std::string_view& arg) {
 
 Option ArgumentHandler::deduce_option_(const char c) {
     switch (c) {
+    case 'h': return Option::Help;
     case 'd': return Option::ShowDev;
     case 'I': return Option::ShowInode;
     case 't': return Option::ShowType;
