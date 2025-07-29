@@ -5,7 +5,7 @@
 #ifndef ARGUMENTHANDLER_H
 #define ARGUMENTHANDLER_H
 
-#include "Option.h"
+#include "Option.hpp"
 #include <forward_list>
 #include <unordered_set>
 #include <string>

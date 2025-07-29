@@ -6,7 +6,7 @@
 #include <tuple>
 #include <stdexcept>
 #include <format>
-#include "ArgumentHandler.h"
+#include "ArgumentHandler.hpp"
 
 void ArgumentHandler::init_raw_arguments_(int &argc, char **&argv) {
     for (size_t i = 1; i < argc; ++i) { // skip argv[0]

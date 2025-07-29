@@ -1,7 +1,7 @@
 //a test
 #include <iostream>
-#include "ArgumentHandler.h"
-#include "Option.h"
+#include "ArgumentHandler.hpp"
+#include "Option.hpp"
 
 std::ostream& operator<<(std::ostream& o, parsed_arguments& a) {
 	for (const Option& arg : a) {
