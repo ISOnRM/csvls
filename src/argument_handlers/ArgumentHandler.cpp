@@ -37,6 +37,15 @@ parsed_pair ArgumentHandler::parse_all_(raw_arguments raw_arguments)
 			parse_target_(arg);
 		}
     }
+	
+	if (parsed_options_.find(Option::Name) && parsed_options_.find(Option::Canonical)) {
+		parsed_options_.get_list().remove(Option::Name);
+	}
+	
+	if (parsed_options_.find(Option::Sort)) {
+		parsed_options_.get_list().sort();
+	}
+
 	return {parsed_options_, parsed_targets_};
 }
 
@@ -63,20 +72,22 @@ parsed_pair ArgumentHandler::get_parsed() {
 }
 
 Option ArgumentHandler::deduce_full_option_(const std::string_view& arg) {
-	if (arg == "show-dev") return Option::ShowDev;
-	else if (arg == "show-inode") return Option::ShowInode;
-	else if (arg == "show-type") return Option::ShowType;
-	else if (arg == "show-perms") return Option::ShowPerms;
-	else if (arg == "show-owner") return Option::ShowOwner;
-	else if (arg == "show-group") return Option::ShowGroup;
-	else if (arg == "show-size") return Option::ShowSize;
-	else if (arg == "show-blocks") return Option::ShowBlocks;
-	else if (arg == "show-access-time") return Option::ShowAccessTime;
-	else if (arg == "show-mod-time") return Option::ShowModTime;
-	else if (arg == "show-meta-mod-time") return Option::ShowMetaModTime;
-	else throw std::invalid_argument(
-		std::format("Option {} not found\n", arg)
-	);
+    if (arg == "show-dev") return Option::ShowDev;
+    else if (arg == "show-inode") return Option::ShowInode;
+    else if (arg == "show-type") return Option::ShowType;
+    else if (arg == "show-perms") return Option::ShowPerms;
+    else if (arg == "show-nlinks") return Option::ShowNLinks;
+    else if (arg == "show-owner") return Option::ShowOwner;
+    else if (arg == "show-group") return Option::ShowGroup;
+    else if (arg == "show-size") return Option::ShowSize;
+    else if (arg == "show-blocks") return Option::ShowBlocks;
+    else if (arg == "show-access-time") return Option::ShowAccessTime;
+    else if (arg == "show-mod-time") return Option::ShowModTime;
+    else if (arg == "show-meta-mod-time") return Option::ShowMetaModTime;
+    else if (arg == "name") return Option::Name;
+    else if (arg == "canonical") return Option::Canonical;
+    else if (arg == "sort") return Option::Sort;
+    else throw std::invalid_argument(std::format("Option {} not found\n", arg));
 }
 
 Option ArgumentHandler::deduce_option_(const char c) {
@@ -85,6 +96,7 @@ Option ArgumentHandler::deduce_option_(const char c) {
     case 'I': return Option::ShowInode;
     case 't': return Option::ShowType;
     case 'p': return Option::ShowPerms;
+    case 'n': return Option::ShowNLinks;
     case 'O': return Option::ShowOwner;
     case 'g': return Option::ShowGroup;
     case 's': return Option::ShowSize;
@@ -92,6 +104,9 @@ Option ArgumentHandler::deduce_option_(const char c) {
     case 'a': return Option::ShowAccessTime;
     case 'm': return Option::ShowModTime;
     case 'M': return Option::ShowMetaModTime;
+    case 'N': return Option::Name;
+    case 'c': return Option::Canonical;
+    case 'S': return Option::Sort;
     default: throw std::invalid_argument(std::format("Option {} not found\n", c));
     }
 }

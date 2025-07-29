@@ -33,7 +33,7 @@ class ArgumentHandler {
   private:
     // private_members
     raw_arguments raw_arguments_;
-    parsed_options parsed_options_{AMOUNT_OF_OPTIONS};
+    parsed_options parsed_options_;
     parsed_targets parsed_targets_;
     // private methods
 

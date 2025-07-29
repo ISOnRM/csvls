@@ -1,28 +1,36 @@
 // OrderedUnique.hpp
 // header-only class for storing arguments in order they were typed in
-#include <vector>
+#include <list>
 #include <unordered_set>
+#include <ranges>
 
 template<typename O>
 concept Enum = std::is_enum_v<O>;
 
 template <Enum O> class OrderedUnique {
   public:
-    OrderedUnique(size_t reserve_size) { vec_.reserve(reserve_size); }
+    OrderedUnique() = default;
 
-    bool emplace_back(const O &option) {
+	bool find(O&& option) {
+		auto it = std::ranges::find(lst_, option);
+		if (it != lst_.end()) return true;
+		else return false;
+	}
+
+    bool emplace_back(O&& option) {
         auto [it, inserted] = set_.insert(option);
         if (inserted) {
-            vec_.emplace_back(option);
+            lst_.emplace_back(option);
             return inserted;
         }
         return false;
     }
 
-    auto begin() const { return vec_.begin(); }
-    auto end() const { return vec_.end(); }
+	std::list<O>& get_list() {return lst_;}
+    auto begin() const { return lst_.begin(); }
+    auto end() const { return lst_.end(); }
 
   private:
     std::unordered_set<O> set_{};
-    std::vector<O> vec_{};
+    std::list<O> lst_{};
 };
