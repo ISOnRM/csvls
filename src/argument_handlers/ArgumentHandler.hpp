@@ -18,6 +18,12 @@ using parsed_options = OrderedUnique<Option>;
 using parsed_targets = std::unordered_set<std::string>;
 using parsed_pair = std::pair<parsed_options, parsed_targets>;
 
+template <typename T>
+concept CharOrString =
+    std::same_as<T, char> ||
+    std::same_as<T, std::string> ||
+    std::same_as<T, std::string_view>;
+
 class ArgumentHandler {
   public:
     explicit ArgumentHandler(int &argc, char **&argv); // Constructor
@@ -66,6 +72,14 @@ class ArgumentHandler {
 		Deduces an option (e.g. -O) when given char
 	*/
 	Option deduce_option_(const char c);
+
+	/*
+		Throw an exception to reduce copy&paste code
+	*/
+	[[noreturn]]
+	void throw_invalid_argument(const CharOrString auto& arg) {
+		throw std::invalid_argument(std::format("Option {} not found\n", arg)); 
+	}
 };
 
 #endif

@@ -51,15 +51,18 @@ parsed_pair ArgumentHandler::parse_all_(raw_arguments raw_arguments)
 
 void ArgumentHandler::parse_option_(std::string_view& arg) {
 	// pretty straightforward no expl needed
-	size_t pos = arg.find_first_not_of('-');
-	arg.remove_prefix(pos);
-	if (arg.contains('-')) {
+	size_t dashes = arg.find_first_not_of('-');
+	arg.remove_prefix(dashes);
+	if (dashes >= 2) {
 		parsed_options_.emplace_back(deduce_full_option_(arg));
 	}
-	else {
-		for (const char& c : arg) {
+	else if (dashes == 1) {
+		for (const char c : arg) {
 			parsed_options_.emplace_back(deduce_option_(c));
 		}
+	}
+	else {
+		throw std::invalid_argument(std::format("Option {} not found\n", arg));
 	}
 }
 
@@ -87,7 +90,7 @@ Option ArgumentHandler::deduce_full_option_(const std::string_view& arg) {
     else if (arg == "name") return Option::Name;
     else if (arg == "canonical") return Option::Canonical;
     else if (arg == "sort") return Option::Sort;
-    else throw std::invalid_argument(std::format("Option {} not found\n", arg));
+    else throw_invalid_argument(arg);
 }
 
 Option ArgumentHandler::deduce_option_(const char c) {
@@ -107,6 +110,6 @@ Option ArgumentHandler::deduce_option_(const char c) {
     case 'N': return Option::Name;
     case 'c': return Option::Canonical;
     case 'S': return Option::Sort;
-    default: throw std::invalid_argument(std::format("Option {} not found\n", c));
+    default: throw_invalid_argument(c); break;
     }
 }
