@@ -3,9 +3,7 @@
 #include <list>
 #include <unordered_set>
 #include <ranges>
-
-template<typename O>
-concept Enum = std::is_enum_v<O>;
+#include "../aliases_and_concepts/concept.hpp"
 
 template <Enum O> class OrderedUnique {
   public:

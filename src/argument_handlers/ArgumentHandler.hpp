@@ -12,11 +12,8 @@
 #include <tuple>
 #include "Option.hpp"
 #include "OrderedUnique.hpp"
+#include "../aliases_and_concepts/using.hpp"
 
-using raw_arguments = std::forward_list<std::string_view>;
-using parsed_options = OrderedUnique<Option>;
-using parsed_targets = std::unordered_set<std::string>;
-using parsed_pair = std::pair<parsed_options, parsed_targets>;
 
 template <typename T>
 concept CharOrString =
