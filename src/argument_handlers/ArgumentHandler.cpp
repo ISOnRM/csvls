@@ -55,7 +55,8 @@ parsed_pair ArgumentHandler::parse_all_(raw_arguments& raw_arguments)
 	}
 	
 	if (parsed_options_.find(Option::Sort)) {
-		parsed_options_.get_list().sort();
+		parsed_options_.get_list().sort(); 
+		parsed_options_.get_list().remove(Option::Sort);
 	}
 
 	return {parsed_options_, parsed_targets_};
