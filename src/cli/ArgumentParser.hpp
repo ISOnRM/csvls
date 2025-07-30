@@ -2,8 +2,8 @@
 // Class that handles how command line arguments
 // Are proccessed and then returned as a container of
 // Options enum
-#ifndef ARGUMENTHANDLER_H
-#define ARGUMENTHANDLER_H
+#ifndef ARGUMENT_HANDLER_HPP
+#define ARGUMENT_HANDLER_HPP
 
 #include <forward_list>
 #include <unordered_set>

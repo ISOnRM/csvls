@@ -1,7 +1,7 @@
 // OrderedUnique.hpp
 // header-only class for storing arguments in order they were typed in
-#ifndef ORDERED_UNIQUE_H
-#define ORDERED_UNIQUE_H
+#ifndef ORDERED_UNIQUE_HPP
+#define ORDERED_UNIQUE_HPP
 
 #include <list>
 #include <unordered_set>

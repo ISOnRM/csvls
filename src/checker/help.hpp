@@ -25,5 +25,5 @@ constexpr void print_help() {
     std::cerr << "  -N, --name           Display entry name.\n";
     std::cerr << "  -c, --canonical      Display canonical path.\n";
     std::cerr << "  -S, --sort           Sort output by selected options.\n";
-    std::cerr << "  -r, --rec            Enable recursive directory traversal.\n";
+    std::cerr << "  -r, --recursive      Enable recursive directory traversal.\n";
 }

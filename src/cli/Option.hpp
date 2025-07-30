@@ -1,7 +1,7 @@
 // Option.h
 // An enum for parsing command line arguments
-#ifndef OPTION_H
-#define OPTION_H
+#ifndef OPTION_HPP
+#define OPTION_HPP
 #define AMOUNT_OF_OPTIONS 17
 enum class Option {
     ShowType,        // st_mode
