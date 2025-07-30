@@ -1,8 +1,9 @@
+#ifndef USING_H
+#define USING_H
+
 #include <unordered_set>
 #include <forward_list>
 
-#ifndef USING_H
-#define USING_H
 
 using raw_arguments = std::forward_list<std::string_view>;
 using parsed_options = OrderedUnique<Option>;

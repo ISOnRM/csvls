@@ -1,7 +1,8 @@
-#include <string>
-#include <string_view>
 #ifndef CONCEPT_H
 #define CONCEPT_H
+
+#include <string>
+#include <string_view>
 
 template <typename T>
 concept CharOrString =

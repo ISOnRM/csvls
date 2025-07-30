@@ -49,11 +49,13 @@ parsed_pair ArgumentHandler::parse_all_(raw_arguments& raw_arguments)
 			parse_target_(arg);
 		}
     }
-	
+
+	// remove name if canonical is present
 	if (parsed_options_.find(Option::Name) && parsed_options_.find(Option::Canonical)) {
 		parsed_options_.get_list().remove(Option::Name);
 	}
 	
+	// sort & remove respective option 
 	if (parsed_options_.find(Option::Sort)) {
 		parsed_options_.get_list().sort(); 
 		parsed_options_.get_list().remove(Option::Sort);
@@ -89,22 +91,22 @@ parsed_pair ArgumentHandler::get_parsed() {
 
 Option ArgumentHandler::deduce_full_option_(const std::string_view& arg) {
     if (arg == "help") return Option::Help;
-    else if (arg == "show-dev") return Option::ShowDev;
-    else if (arg == "show-inode") return Option::ShowInode;
-    else if (arg == "show-type") return Option::ShowType;
-    else if (arg == "show-perms") return Option::ShowPerms;
-    else if (arg == "show-nlinks") return Option::ShowNLinks;
-    else if (arg == "show-owner") return Option::ShowOwner;
-    else if (arg == "show-group") return Option::ShowGroup;
-    else if (arg == "show-size") return Option::ShowSize;
-    else if (arg == "show-blocks") return Option::ShowBlocks;
-    else if (arg == "show-access-time") return Option::ShowAccessTime;
-    else if (arg == "show-mod-time") return Option::ShowModTime;
-    else if (arg == "show-meta-mod-time") return Option::ShowMetaModTime;
-    else if (arg == "name") return Option::Name;
-    else if (arg == "canonical") return Option::Canonical;
-    else if (arg == "sort") return Option::Sort;
-    else throw_invalid_argument_(arg);
+    else if (arg == "show-dev") 			return Option::ShowDev;
+    else if (arg == "show-inode") 			return Option::ShowInode;
+    else if (arg == "show-type") 			return Option::ShowType;
+    else if (arg == "show-perms") 			return Option::ShowPerms;
+    else if (arg == "show-nlinks") 			return Option::ShowNLinks;
+    else if (arg == "show-owner") 			return Option::ShowOwner;
+    else if (arg == "show-group") 			return Option::ShowGroup;
+    else if (arg == "show-size") 			return Option::ShowSize;
+    else if (arg == "show-blocks") 			return Option::ShowBlocks;
+    else if (arg == "show-access-time") 	return Option::ShowAccessTime;
+    else if (arg == "show-mod-time") 		return Option::ShowModTime;
+    else if (arg == "show-meta-mod-time") 	return Option::ShowMetaModTime;
+    else if (arg == "name") 				return Option::Name;
+    else if (arg == "canonical") 			return Option::Canonical;
+    else if (arg == "sort") 				return Option::Sort;
+    else 									throw_invalid_argument_(arg);
 }
 
 Option ArgumentHandler::deduce_option_(const char c) {
