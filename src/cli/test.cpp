@@ -1,10 +1,10 @@
 //a test
 #include <iostream>
 #include <sstream>
-#include "ArgumentHandler.hpp"
+#include "ArgumentParser.hpp"
 #include "Option.hpp"
 
-std::ostream& operator<<(std::ostream& o, parsed_options& a) {
+std::ostream& operator<<(std::ostream& o, ParsedOptions& a) {
 	for (const Option& arg : a) {
 		o << static_cast<int>(arg) << ' ';
 	}
@@ -12,7 +12,7 @@ std::ostream& operator<<(std::ostream& o, parsed_options& a) {
 	return o;
 }
 
-std::ostream &operator<<(std::ostream &o, parsed_targets &a) {
+std::ostream &operator<<(std::ostream &o, ParsedTargets &a) {
     for (const std::string &arg : a) {
         o << arg << ' ';
     }
@@ -21,14 +21,14 @@ std::ostream &operator<<(std::ostream &o, parsed_targets &a) {
 }
 
 int main(int argc, char **argv) try {
-	ArgumentHandler handler(argc, argv);
-	parsed_pair parsed = handler.get_parsed();
+	ArgumentParser parser(argc, argv);
+	ParsedArguments parsed = parser.parse();
 
 
 
 
-    std::cout << "parsed options: "<< parsed.first;
-	std::cout << "parsed targers: "<< parsed.second;
+    std::cout << "parsed options: "<< parsed.options;
+	std::cout << "parsed targers: "<< parsed.targets;
 }
 catch (std::invalid_argument& exception) {
 	std::cout << "Invalid argument: " << exception.what() << '\n';
