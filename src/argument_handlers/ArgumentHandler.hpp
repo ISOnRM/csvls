@@ -77,7 +77,7 @@ class ArgumentHandler {
 		Throw an exception to reduce copy&paste code
 	*/
 	[[noreturn]]
-	void throw_invalid_argument(const CharOrString auto& arg) {
+	void throw_invalid_argument_(const CharOrString auto& arg) {
 		throw std::invalid_argument(std::format("Option {} not found\n", arg)); 
 	}
 };

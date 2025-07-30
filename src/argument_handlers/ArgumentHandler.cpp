@@ -103,7 +103,7 @@ Option ArgumentHandler::deduce_full_option_(const std::string_view& arg) {
     else if (arg == "name") return Option::Name;
     else if (arg == "canonical") return Option::Canonical;
     else if (arg == "sort") return Option::Sort;
-    else throw_invalid_argument(arg);
+    else throw_invalid_argument_(arg);
 }
 
 Option ArgumentHandler::deduce_option_(const char c) {
@@ -124,6 +124,6 @@ Option ArgumentHandler::deduce_option_(const char c) {
     case 'N': return Option::Name;
     case 'c': return Option::Canonical;
     case 'S': return Option::Sort;
-    default: throw_invalid_argument(c); break;
+    default: throw_invalid_argument_(c); break;
     }
 }
