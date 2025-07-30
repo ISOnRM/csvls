@@ -15,11 +15,6 @@
 #include "../aliases_and_concepts/using.hpp"
 
 
-template <typename T>
-concept CharOrString =
-    std::same_as<T, char> ||
-    std::same_as<T, std::string> ||
-    std::same_as<T, std::string_view>;
 
 class ArgumentHandler {
   public:

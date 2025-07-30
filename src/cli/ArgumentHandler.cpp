@@ -68,7 +68,7 @@ void ArgumentHandler::parse_option_(std::string_view& arg) {
 	// pretty straightforward no expl needed
 	size_t dashes = arg.find_first_not_of('-');
 	arg.remove_prefix(dashes);
-	if (dashes >= 2) {
+	if (dashes == 2) {
 		parsed_options_.emplace_back(deduce_full_option_(arg));
 	}
 	else if (dashes == 1) {
