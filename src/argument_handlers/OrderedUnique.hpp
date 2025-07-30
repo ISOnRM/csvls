@@ -1,5 +1,8 @@
 // OrderedUnique.hpp
 // header-only class for storing arguments in order they were typed in
+#ifndef ORDERED_UNIQUE_H
+#define ORDERED_UNIQUE_H
+
 #include <list>
 #include <unordered_set>
 #include <ranges>
@@ -32,3 +35,5 @@ template <Enum O> class OrderedUnique {
     std::unordered_set<O> set_{};
     std::list<O> lst_{};
 };
+
+#endif

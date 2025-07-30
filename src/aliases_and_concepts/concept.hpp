@@ -1,5 +1,7 @@
 #include <string>
 #include <string_view>
+#ifndef CONCEPT_H
+#define CONCEPT_H
 
 template <typename T>
 concept CharOrString =
@@ -9,3 +11,5 @@ concept CharOrString =
 
 template<typename O>
 concept Enum = std::is_enum_v<O>;
+
+#endif

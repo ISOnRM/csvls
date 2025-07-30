@@ -1,5 +1,8 @@
 // ArgumentProcessor.hpp
 // Class' interface
+#ifndef ARGUMENT_PROCESSOR_H
+#define ARGUMENT_PROCESSOR_H
+
 #include <iostream>
 #include <filesystem>
 #include <stdexcept>
@@ -48,3 +51,6 @@ namespace ArgumentProcessor {
 		}
 	}
 }
+
+
+#endif
