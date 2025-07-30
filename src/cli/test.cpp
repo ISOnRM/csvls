@@ -23,21 +23,6 @@ std::ostream &operator<<(std::ostream &o, parsed_targets &a) {
 int main(int argc, char **argv) try {
 	ArgumentHandler handler(argc, argv);
 	parsed_pair parsed = handler.get_parsed();
-    std::cout << "Available options:\n"
-          << "0 ShowType\n"
-          << "1 ShowPerms\n"
-          << "2 ShowNLinks\n"
-          << "3 ShowOwner\n"
-          << "4 ShowGroup\n"
-          << "5 ShowSize\n"
-          << "6 ShowAccessTime\n"
-          << "7 ShowModTime\n"
-          << "8 ShowMetaModTime\n"
-          << "9 Name\n"
-          << "10 Canonical\n"
-          << "11 ShowInode\n"
-          << "12 ShowBlocks\n"
-          << "13 ShowDev\n\n\n\n";
 
 
 

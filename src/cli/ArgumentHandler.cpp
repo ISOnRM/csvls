@@ -6,6 +6,7 @@
 #include <tuple>
 #include <stdexcept>
 #include <format>
+#include <ranges>
 #include "ArgumentHandler.hpp"
 
 void ArgumentHandler::init_raw_arguments_(int &argc, char **&argv) {
@@ -14,17 +15,24 @@ void ArgumentHandler::init_raw_arguments_(int &argc, char **&argv) {
     }
 
 	// check whether targets are present or not
-	bool has_target = std::any_of(
-		raw_arguments_.begin(),
-		raw_arguments_.end(),
+
+    if (!check_raw_arguments_(raw_arguments_)) {
+        throw std::invalid_argument("No mandatory arguments specified, try -h(--help)");
+    }
+}
+
+
+bool ArgumentHandler::check_raw_arguments_(raw_arguments& raw_arguments) {
+	return 
+	std::any_of(
+		raw_arguments.begin(),
+		raw_arguments.end(),
+		[](const std::string_view &a){return a.starts_with('-');}
+	) && std::any_of(
+		raw_arguments.begin(),
+		raw_arguments.end(),
 		[](const std::string_view &a){return !a.starts_with('-');}
 	);
-
-	
-
-	if (!has_target) {
-		throw std::invalid_argument("No targets specified");
-	}
 }
 
 ArgumentHandler::ArgumentHandler(int &argc, char **&argv) {
@@ -50,16 +58,6 @@ parsed_pair ArgumentHandler::parse_all_(raw_arguments& raw_arguments)
 		}
     }
 
-	// remove name if canonical is present
-	if (parsed_options_.find(Option::Name) && parsed_options_.find(Option::Canonical)) {
-		parsed_options_.get_list().remove(Option::Name);
-	}
-	
-	// sort & remove respective option 
-	if (parsed_options_.find(Option::Sort)) {
-		parsed_options_.get_list().sort(); 
-		parsed_options_.get_list().remove(Option::Sort);
-	}
 
 	return {parsed_options_, parsed_targets_};
 }
@@ -106,6 +104,7 @@ Option ArgumentHandler::deduce_full_option_(const std::string_view& arg) {
     else if (arg == "name") 				return Option::Name;
     else if (arg == "canonical") 			return Option::Canonical;
     else if (arg == "sort") 				return Option::Sort;
+    else if (arg == "rec") 					return Option::Recurcive;
     else 									throw_invalid_argument_(arg);
 }
 
@@ -127,6 +126,7 @@ Option ArgumentHandler::deduce_option_(const char c) {
     case 'N': return Option::Name;
     case 'c': return Option::Canonical;
     case 'S': return Option::Sort;
+    case 'r': return Option::Recurcive;
     default: throw_invalid_argument_(c); break;
     }
 }

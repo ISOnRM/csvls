@@ -40,6 +40,11 @@ class ArgumentHandler {
     */
     void init_raw_arguments_(int &argc, char **&argv);
 
+	/*
+		Check raw_arguments_ list
+	*/
+	bool check_raw_arguments_(raw_arguments& raw_arguments);
+
     /*
         Parses a single optional argument
     */
@@ -70,7 +75,7 @@ class ArgumentHandler {
 	*/
 	[[noreturn]]
 	void throw_invalid_argument_(const CharOrString auto& arg) {
-		throw std::invalid_argument(std::format("Option {} not found\n", arg)); 
+		throw std::invalid_argument(std::format("Option '{}' not found\n", arg)); 
 	}
 };
 

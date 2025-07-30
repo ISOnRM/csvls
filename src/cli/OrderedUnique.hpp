@@ -13,8 +13,11 @@ template <Enum O> class OrderedUnique {
     OrderedUnique() = default;
 
 	bool find(O&& option) {
-		auto it = std::ranges::find(lst_, option);
-		if (it != lst_.end()) return true;
+		// auto it = std::ranges::find(lst_, option);
+		// if (it != lst_.end()) return true;
+		// else return false;
+		auto it = set_.find(option);
+		if (it != set_.end()) return true;
 		else return false;
 	}
 

@@ -22,6 +22,7 @@ enum class Option {
     // other options
     Sort, // sort the list of options
 	Help, // show help menu
+	Recurcive // enable recursion when walking dirs
 };
 
 #endif
