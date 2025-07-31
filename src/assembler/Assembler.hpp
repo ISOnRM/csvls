@@ -18,28 +18,27 @@ class Assembler {
     // Constructor
     // Assembler assumes that targets are validated
     Assembler(ParsedTargets &targets, ParsedOptions &options);
-    std::list<struct stat> get_stats();
+    std::list<struct stat> get_entries();
 
   private:
     ParsedTargets &targets_;
     ParsedOptions &options_;
-    std::list<Entry> entrys_;
+    std::list<Entry> entries_;
 	bool use_canonical_;
 	bool use_recursion_;
 
     void assemble();
 
-    void get_stats();
+	void process_target(const std::string& path);
 
-	void attempt_create_entry(const std::string& target);
+	void traverse_dir(const std::string& dir_path);
 
-	void split_entry(Entry& raw_entry);
+	void add_entry(
+		const std::string& full_path,
+		const struct stat& sb
+	);
 
-	void handle_not_dir(Entry& raw_entry);
-
-	void handle_dir(Entry& raw_entry);
-
-	//void traverse_dir(char *...);
+	
 
 };
 
