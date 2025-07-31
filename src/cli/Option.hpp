@@ -3,6 +3,7 @@
 #ifndef OPTION_HPP
 #define OPTION_HPP
 #define AMOUNT_OF_OPTIONS 17
+#define AMOUNT_OF_PRINTABLES 13
 enum class Option {
     ShowType,        // st_mode
     ShowPerms,       // st_mode
