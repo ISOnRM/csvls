@@ -5,7 +5,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <cerrno>
-#include <string.h>
+#include <cstring>
 #include <stdexcept>
 #include <list>
 #include "../aliases_and_concepts/using.hpp"
@@ -19,7 +19,8 @@ Assembler::Assembler(ParsedTargets &targets, ParsedOptions &options)
       use_canonical_{options.find(Option::Canonical)},
       use_recursion_{options.find(Option::Recursive)} {}
 
-std::list<Entry> Assembler::get_stats() {
+std::list<Entry> Assembler::get_entries() {
+	entries_.clear();
 	assemble();
 	return entries_;
 }
@@ -32,15 +33,9 @@ void Assembler::assemble() {
 
 
 void Assembler::process_target(const std::string& path) {
-	struct stat sb;
-	if ((::stat(target.c_str(), &sb)) != 0) {
-		int err = errno;
-		if (err == EACCES) {
-			return;
-		} 
-        throw std::system_error(err, std::generic_category();
-                                    "Stat failed for " + path);
-	}
+	auto temp_sb = get_stat_checked(path);
+	if (!temp_sb) return;
+	const auto& sb = *temp_sb;
 	
 	add_entry(path, sb);
 
@@ -49,32 +44,41 @@ void Assembler::process_target(const std::string& path) {
 	}
 }
 
-
-void Assembler::traverse_dir(const std::string& dir_path) {
-    DIR *d = opendir(dir_path.c_str());
-	if (!d) {
+std::optional<struct stat> Assembler::get_stat_checked(const std::string& path) {
+	struct stat sb;
+	if ((::stat(path.c_str(), &sb)) != 0) {
 		int err = errno;
 		if (err == EACCES) {
+			return std::nullopt;
+		} 
+        throw std::system_error(err, std::generic_category(),
+                                    "Stat failed for " + path);
+	}
+	return sb;
+}
+
+
+void Assembler::traverse_dir(const std::string& dir_path) {
+    DirPtr d(opendir(dir_path.c_str()));
+	if (!d) {
+		if (errno == EACCES) {
 			return;
 		}
-		throw std::system_error(err, std::generic_category(), "opendir failed for " + dir_path);
+		throw std::system_error(errno, std::generic_category(), "opendir failed for " + dir_path);
 	}
 
 	struct dirent* entry;
-	while ((entry = readdir(d)) != NULL) {
+	while ((entry = readdir(d.get())) != nullptr) {
         std::string name = entry->d_name;
         if (name == "." || name == "..")
             continue;
+
+		
         std::string full_path = dir_path + "/" + name;
-        struct stat sb;
-        if ((::stat(target.c_str(), &sb)) != 0) {
-            int err = errno;
-            if (err == EACCES) {
-                return;
-            }
-            throw std::system_error(err, std::generic_category();
-                                    "Stat failed for " + full_path);
-        }
+
+        auto temp_sb = get_stat_checked(full_path);
+		if (!temp_sb) continue;
+		const struct stat& sb = *temp_sb;
 
 		add_entry(full_path, sb);
 
@@ -82,8 +86,6 @@ void Assembler::traverse_dir(const std::string& dir_path) {
 			traverse_dir(full_path);
 		}
     }
-
-	closedir(d);
 }
 
 void Assembler::add_entry(const std::string& full_path, const struct stat& sb) {
@@ -92,3 +94,13 @@ void Assembler::add_entry(const std::string& full_path, const struct stat& sb) {
 			sb
 		});
 }
+
+// template<bool Canonical>
+// std::string Assembler::make_name(const std::string& path) {
+
+// }
+
+// template<bool Recursion>
+// void Assembler::traverse_dir_ct(const std::string& dir_path) {
+
+// }

@@ -12,7 +12,7 @@ template <Enum O> class OrderedUnique {
   public:
     OrderedUnique() = default;
 
-	bool find(O&& option) {
+	bool find(O&& option) const {
 		// auto it = std::ranges::find(lst_, option);
 		// if (it != lst_.end()) return true;
 		// else return false;
@@ -21,7 +21,7 @@ template <Enum O> class OrderedUnique {
 		else return false;
 	}
 
-    bool emplace_back(O&& option) {
+    bool emplace_back(const O& option) {
         auto [it, inserted] = set_.insert(option);
         if (inserted) {
             lst_.emplace_back(option);

@@ -3,6 +3,8 @@
 
 #include <unordered_set>
 #include <forward_list>
+#include "../cli/Option.hpp"
+#include "../cli/OrderedUnique.hpp"
 
 
 using RawArguments = std::forward_list<std::string_view>;
