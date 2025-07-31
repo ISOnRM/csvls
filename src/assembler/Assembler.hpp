@@ -20,6 +20,11 @@ class Assembler {
     // Constructor
     // Assembler assumes that targets are validated
     Assembler(ParsedTargets &targets, ParsedOptions &options);
+
+	// Get the list of Entries.
+	// struct Entry {string name; struct stat stats;};
+	// name is already canonical if an option
+	// is specified
     std::list<Entry> get_entries();
 
   private:
