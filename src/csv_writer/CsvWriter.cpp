@@ -17,15 +17,15 @@
 #include <unistd.h>
 #include "../assembler/Assembler.hpp"
 #include "../cli/Option.hpp"
-#include "../CsvWriter.hpp"
+#include "CsvWriter.hpp"
 
 CsvWriter::CsvWriter(const Entries &entries,
                      const ParsedOptions &options,
-                     std::ostream &out = std::cout, char delimiter = ',')
+                     std::ostream &out, char delimiter)
     : entries_{entries}, options_{options}, out_{out}, delimiter_{delimiter} {}
 
 const char *CsvWriter::column_name(Option option) noexcept {
-    switch (opt) {
+    switch (option) {
     case Option::Name:
         return "name";
     case Option::ShowType:
@@ -48,7 +48,7 @@ const char *CsvWriter::column_name(Option option) noexcept {
         return "meta_mod_time";
     case Option::ShowInode:
         return "inode";
-	case Option::ShowBlocks;
+	case Option::ShowBlocks:
 		return "blocks";
     case Option::ShowDev:
         return "device";
@@ -76,7 +76,7 @@ void CsvWriter::print_options() const {
         out_ << '\n';
 }
 void CsvWriter::print_entries() const {
-	for (const Entry entry : entries_) {
+	for (const Entry& entry : entries_) {
 		bool first = true;
 		for (const Option option : options_) {
 			if (!first) out_ << delimiter_;
@@ -85,10 +85,11 @@ void CsvWriter::print_entries() const {
 			switch (option) {
 				case Option::ShowType:
 					out_ << get_type_char(entry.stats); break;
-				case Option::ShowPerms:
-					const auto perms = get_perms_arr(entry.stats);
-					out_.write(perms.data(), perms.size());
-					break;
+				case Option::ShowPerms: {
+						const auto perms = get_perms_arr(entry.stats);
+						out_.write(perms.data(), perms.size());
+						break;
+					}
 				case Option::ShowNLinks:
 					out_ << entry.stats.st_nlink;
 					break;

@@ -26,7 +26,7 @@ class CsvWriter {
   private:
     const Entries entries_;
     const ParsedOptions options_;
-	std::ostream out_;
+	std::ostream& out_;
     char delimiter_;
 
 	std::string quote(const std::string& text);

@@ -19,7 +19,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/$(TARGET): $(OBJS)
-	$(CXX) $^ $(LDFLAGS) -o $@
+	$(CXX) $(CXXFLAGS) $(SRC_DIR)/main.cpp $^ $(LDFLAGS) -o $@
 
 clean: 
 	rm -rfv $(BUILD_DIR)/*
