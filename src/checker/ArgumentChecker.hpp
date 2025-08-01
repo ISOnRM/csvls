@@ -14,8 +14,8 @@ namespace ArgumentChecker {
 	void check(ParsedArguments& parsed);
 
 	void check_help(const ParsedOptions& options);
-	void validate_options(const ParsedOptions& options);
-	void validate_targets(const ParsedTargets& targets);
+	void validate_options(ParsedOptions& options);
+	void validate_targets(ParsedTargets& targets);
 
 }
 

@@ -23,7 +23,7 @@ namespace ArgumentChecker {
 		}
 	}
 
-	void validate_options(const ParsedOptions& options) {
+	void validate_options(ParsedOptions& options) {
 		const bool name_present = options.find(Option::Name);
 		const bool canonical_present = options.find(Option::Canonical);
 		const bool sort_present = options.find(Option::Sort);
@@ -40,13 +40,14 @@ namespace ArgumentChecker {
 		}
 	}
 
-	void validate_targets(const ParsedTargets& targets) {
+	void validate_targets(ParsedTargets& targets) {
 		auto it = targets.begin();
 		auto end = targets.end();
 		for ( ; it != end; ) {
 			if (!fs::exists(*it)) {
 				std::cerr << std::format("Target not found: {}\n", *it);
-				it = targets.erase(*it);
+				targets.erase(*it);
+				++it;
 			} else {
 				++it;
 			}

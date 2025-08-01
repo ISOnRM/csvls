@@ -15,7 +15,7 @@ struct Entry {
 	struct stat stats;
 };
 
-using Entries = Entries;
+using Entries = std::list<Entry>;
 
 class Assembler {
   public:

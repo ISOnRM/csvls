@@ -15,7 +15,7 @@ ArgumentParser::ArgumentParser(int argc, char **argv) {
 }
 
 void ArgumentParser::collect_raw_arguments(int argc, char **argv) {
-	for (size_t i = 1; i < argc; ++i) raw_arguments_.emplace_front(argv[i]);
+	for (int i = 1; i < argc; ++i) raw_arguments_.emplace_front(argv[i]);
 }
 
 ParsedArguments ArgumentParser::parse() {
