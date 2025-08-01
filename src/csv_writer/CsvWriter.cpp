@@ -19,7 +19,7 @@
 #include "../cli/Option.hpp"
 #include "../CsvWriter.hpp"
 
-CsvWriter::CsvWriter(const std::list<Entry> &entries,
+CsvWriter::CsvWriter(const Entries &entries,
                      const ParsedOptions &options,
                      std::ostream &out = std::cout, char delimiter = ',')
     : entries_{entries}, options_{options}, out_{out}, delimiter_{delimiter} {}

@@ -19,7 +19,7 @@ Assembler::Assembler(ParsedTargets &targets, ParsedOptions &options)
       use_canonical_{options.find(Option::Canonical)},
       use_recursion_{options.find(Option::Recursive)} {}
 
-std::list<Entry> Assembler::get_entries() {
+Entries Assembler::get_entries() {
 	entries_.clear();
 	assemble();
 	return entries_;

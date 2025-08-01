@@ -15,6 +15,8 @@ struct Entry {
 	struct stat stats;
 };
 
+using Entries = Entries;
+
 class Assembler {
   public:
     // Constructor
@@ -25,12 +27,12 @@ class Assembler {
 	// struct Entry {string name; struct stat stats;};
 	// name is already canonical if an option
 	// is specified
-    std::list<Entry> get_entries();
+    Entries get_entries();
 
   private:
     ParsedTargets &targets_;
     ParsedOptions &options_;
-    std::list<Entry> entries_;
+    Entries entries_;
 	bool use_canonical_;
 	bool use_recursion_;
 

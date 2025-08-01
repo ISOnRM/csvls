@@ -17,14 +17,14 @@ using PrinterFunction = std::function<void(const Entry&, std::ostream&)>;
 class CsvWriter {
   public:
     // Constructor
-    CsvWriter(const std::list<Entry> &entries, const ParsedOptions &options,
+    CsvWriter(const Entries &entries, const ParsedOptions &options,
               std::ostream &out = std::cout, char delimiter = ',');
 
     // Print in a passed formation
     void print_results() const;
 
   private:
-    const std::list<Entry> entries_;
+    const Entries entries_;
     const ParsedOptions options_;
 	std::ostream out_;
     char delimiter_;
