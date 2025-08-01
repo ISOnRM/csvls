@@ -33,11 +33,11 @@ LambdaVector LambdaHandler::get_lambdas() const {
 PrinterFunction LambdaHandler::deduce_printer_function(const Option option) const {
     switch (option) {
     case Option::ShowType:
-        return [this](const Entry &e) {
+        return [](const Entry &e) {
             return std::string(1, get_type_char(e.stats));
         };
     case Option::ShowPerms:
-        return [this](const Entry &e) {
+        return [](const Entry &e) {
             auto arr = get_perms_arr(e.stats);
             return std::string(arr.begin(), arr.end());
         };

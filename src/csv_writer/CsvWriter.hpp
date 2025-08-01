@@ -29,16 +29,20 @@ class CsvWriter {
 	std::ostream out_;
     char delimiter_;
 
-	std::array<
-		std::pair<Option, PrinterFunction>,
-		AMOUNT_OF_PRINTABLES
-	> printers_;
+	std::string quote(const std::string& text);
 
-	void init_printers();
+	void print_options() const;
+	void print_entries() const;
 
-	std::string quote(const std::string& field);
+	static const char* column_name(Option option) noexcept;
 
-	void print_field(const Entry& entry, Option option) const;
+	PrinterFunction deduce_printer_function(const Option option) const;
+    char get_type_char(const struct stat& stats) const noexcept;
+	std::array<char,9> get_perms_arr(const struct stat& stats) const noexcept;
+	std::string get_owner_str(const struct stat& stats) const noexcept;
+	std::string get_group_str(const struct stat& stats) const noexcept;
+	std::string get_size_str(const struct stat& stats) const noexcept;
+	std::string get_time_str(const struct timespec& ts) const noexcept;
 };
 
 #endif
