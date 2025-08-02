@@ -12,6 +12,7 @@
 #include <cstdio>
 #include <sys/stat.h>
 #include <format>
+#include <sstream>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <pwd.h>

@@ -1,8 +1,11 @@
 // help.hpp
 // print usage to stderr
+#ifndef HELP_HPP
+#define HELP_HPP
 #include <iostream>
 
-constexpr void print_help() {
+
+inline void print_help() {
     std::cerr << "Usage:\n";
     std::cerr << "  program [options] <targets>...\n\n";
     std::cerr << "Description:\n";
@@ -27,3 +30,4 @@ constexpr void print_help() {
     std::cerr << "  -S, --sort           Sort output by selected options.\n";
     std::cerr << "  -r, --recursive      Enable recursive directory traversal.\n";
 }
+#endif
