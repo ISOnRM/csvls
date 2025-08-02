@@ -13,7 +13,7 @@ It provides flexible options to display file metadata such as type, owner, group
 Clone the repository and build with **make**:
 
 ```bash
-git clone https://github.com/yourname/csvls.git
+git clone https://github.com/ISOnRM/csvls.git
 cd csvls
 make
 sudo make install
