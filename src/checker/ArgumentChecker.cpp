@@ -30,7 +30,7 @@ namespace ArgumentChecker {
 
 		if (!name_present) options.emplace_back(Option::Name);
 
-		if (name_present && canonical_present)
+		if (canonical_present)
 			options.get_list().remove(Option::Name);
 
 		if (sort_present) {

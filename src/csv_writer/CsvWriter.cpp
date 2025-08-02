@@ -27,8 +27,9 @@ CsvWriter::CsvWriter(const Entries &entries,
 const char *CsvWriter::column_name(Option option) noexcept {
     switch (option) {
     case Option::Name:
+		return "path";
 	case Option::Canonical:
-        return "name";
+        return "canonical_path";
     case Option::ShowType:
         return "type";
     case Option::ShowPerms:
@@ -84,6 +85,10 @@ void CsvWriter::print_entries() const {
 			first = false;
 
 			switch (option) {
+				case Option::Name:
+				case Option::Canonical:
+					out_ << entry.name;
+					break;
 				case Option::ShowType:
 					out_ << get_type_char(entry.stats); break;
 				case Option::ShowPerms: {
