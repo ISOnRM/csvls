@@ -46,8 +46,7 @@ namespace ArgumentChecker {
 		for ( ; it != end; ) {
 			if (!fs::exists(*it)) {
 				std::cerr << std::format("Target not found: {}\n", *it);
-				targets.erase(*it);
-				++it;
+				it = targets.erase(it);
 			} else {
 				++it;
 			}

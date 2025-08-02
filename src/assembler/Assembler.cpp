@@ -89,18 +89,9 @@ void Assembler::traverse_dir(const std::string& dir_path) {
 }
 
 void Assembler::add_entry(const std::string& full_path, const struct stat& sb) {
-	entries_.push_back({
-			use_canonical_ ? fs::canonical(full_path).string() : full_path,
-			sb
-		});
+	std::string display_path = use_canonical_ ? fs::canonical(full_path).string() : full_path;
+	Entry entry;
+	entry.name = std::move(display_path);
+	entry.stats = sb;
+	entries_.push_back(std::move(entry));
 }
-
-// template<bool Canonical>
-// std::string Assembler::make_name(const std::string& path) {
-
-// }
-
-// template<bool Recursion>
-// void Assembler::traverse_dir_ct(const std::string& dir_path) {
-
-// }
