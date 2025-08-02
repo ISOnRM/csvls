@@ -16,7 +16,7 @@ Clone the repository and build with **make**:
 git clone https://github.com/yourname/csvls.git
 cd csvls
 make
-make install
+sudo make install
 ```
 
 ---

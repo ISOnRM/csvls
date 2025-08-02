@@ -10,8 +10,9 @@ TARGET = csvls
 SRCS := $(SRC_DIR)/main.cpp $(foreach m,$(MODULES),$(wildcard $(SRC_DIR)/$(m)/*.cpp))
 OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
 
-prefix ?= /usr/local
+prefix ?= /usr
 bin_dir ?= $(prefix)/bin
+DEST_DIR ?= 
 
 .PHONY: all clean install
 .DEFAULT_GOAL := all
