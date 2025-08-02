@@ -87,7 +87,7 @@ void CsvWriter::print_entries() const {
 			switch (option) {
 				case Option::Name:
 				case Option::Canonical:
-					out_ << entry.name;
+					out_ << quote(entry.name);
 					break;
 				case Option::ShowType:
 					out_ << get_type_char(entry.stats); break;
@@ -132,35 +132,42 @@ void CsvWriter::print_entries() const {
 }
 
 std::string CsvWriter::quote(const std::string& text) const {
-	bool need_quotes = false;
+    bool need_quotes = false;
 
-	for (char c : text) {
-		if (c == delimiter_ || c == '"' || c == '\n' || c == '\r') {
-			need_quotes = true;
-			break;
-		}
-	}
+    if (text.empty()) {
+        need_quotes = true;
+    } else {
+        for (char c : text) {
+            if (c == delimiter_ || c == '"' || c == '\n' || c == '\r') {
+                need_quotes = true;
+                break;
+            }
+        }
+        if (!need_quotes && (text.front() == ' ' || text.back() == ' ')) {
+            need_quotes = true;
+        }
+    }
 
-	if (!need_quotes && (text.front() == ' ' && text.back() == ' ')) {
-		need_quotes = true;
-	}
+    if (!need_quotes) {
+        return text;
+    }
 
-	std::string result;
-	result.reserve(text.size() + 2);
-	result.push_back('"');
+    std::string result;
+    result.reserve(text.size() + 2);
+    result.push_back('"');
 
-	for (char c : text) {
-		if (c == '"') {
-			result.append("\"\"");
-		} else {
-			result.push_back(c);
-		}
-	}
+    for (char c : text) {
+        if (c == '"') {
+            result.append("\"\"");
+        } else {
+            result.push_back(c);
+        }
+    }
 
-	result.push_back('"');
-
-	return result;
+    result.push_back('"');
+    return result;
 }
+
 
 char CsvWriter::get_type_char(const struct stat &stats) const noexcept {
 	switch (stats.st_mode & S_IFMT) {
