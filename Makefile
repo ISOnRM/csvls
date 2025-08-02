@@ -10,7 +10,11 @@ TARGET = csvls
 SRCS := $(SRC_DIR)/main.cpp $(foreach m,$(MODULES),$(wildcard $(SRC_DIR)/$(m)/*.cpp))
 OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
 
-.PHONY: all clean
+prefix ?= /usr/local
+bin_dir ?= $(prefix)/bin
+
+.PHONY: all clean install
+.DEFAULT_GOAL := all
 
 all: $(BUILD_DIR)/$(TARGET)
 
@@ -20,6 +24,11 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 $(BUILD_DIR)/$(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
+
+install: all
+	@echo "Installing to $(DEST_DIR)$(bin_dir)..."
+	mkdir -p $(DEST_DIR)$(bin_dir)
+	install -m 0755 $(BUILD_DIR)/$(TARGET) $(DEST_DIR)$(bin_dir)
 
 clean: 
 	rm -rfv $(BUILD_DIR)/*
