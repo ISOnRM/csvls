@@ -41,6 +41,11 @@ namespace ArgumentChecker {
 	}
 
 	void validate_targets(ParsedTargets& targets) {
+		if (targets.empty()) {
+			targets.insert(".");
+			return;
+		}
+
 		auto it = targets.begin();
 		auto end = targets.end();
 		for ( ; it != end; ) {

@@ -7,7 +7,7 @@ BUILD_DIR ?= build
 MODULES = cli checker assembler csv_writer #aliases_and_concepts/ is header only
 TARGET = csvls
 
-SRCS := $(foreach m,$(MODULES),$(wildcard $(SRC_DIR)/$(m)/*.cpp))
+SRCS := $(SRC_DIR)/main.cpp $(foreach m,$(MODULES),$(wildcard $(SRC_DIR)/$(m)/*.cpp))
 OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
 
 .PHONY: all clean
@@ -19,7 +19,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(SRC_DIR)/main.cpp $^ $(LDFLAGS) -o $@
+	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
 clean: 
 	rm -rfv $(BUILD_DIR)/*

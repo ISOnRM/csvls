@@ -47,9 +47,9 @@ void Assembler::process_target(const std::string& path) {
 
 std::optional<struct stat> Assembler::get_stat_checked(const std::string& path) {
 	struct stat sb;
-	if ((::stat(path.c_str(), &sb)) != 0) {
+	if ((::lstat(path.c_str(), &sb)) != 0) {
 		int err = errno;
-		if (err == EACCES) {
+		if (err == EACCES || err == ENAMETOOLONG || err == ELOOP || err == ENOENT) {
 			return std::nullopt;
 		} 
         throw std::system_error(err, std::generic_category(),
