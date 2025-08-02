@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <functional>
 #include <cmath>
+#include <cstring>
 #include <ctime>
 #include <cstdio>
 #include <sys/stat.h>
@@ -130,7 +131,7 @@ void CsvWriter::print_entries() const {
 	}
 }
 
-std::string CsvWriter::quote(const std::string& text) {
+std::string CsvWriter::quote(const std::string& text) const {
 	bool need_quotes = false;
 
 	for (char c : text) {
@@ -219,26 +220,19 @@ std::string CsvWriter::get_size_str(const struct stat &stats) const noexcept{
 	return oss.str();
 }
 std::string CsvWriter::get_time_str(const struct timespec& ts) const noexcept {
-	std::time_t t = ts.tv_sec;
-	std::tm tm;
-	localtime_r(&t, &tm);
-	auto ptm = std::localtime(&t);
-	if (!ptm) return {};
-	tm = *ptm;
+	std::time_t sec = ts.tv_sec;
+	std::tm tm{};
 
-	char buf[20];
-	std::snprintf(
-		buf,
-		sizeof(buf),
-		"%02d-%02d-%04d %02d-%02d-%02d",
-                  tm.tm_mday,
-                  tm.tm_mon + 1,
-                  tm.tm_year + 1900,
-                  tm.tm_hour,
-                  tm.tm_min,
-                  tm.tm_sec
+	localtime_r(&sec, &tm);
+	
+	return std::format(
+		"{:02d}-{:02d}-{:04d} {:02d}:{:02d}:{:02d}",
+         tm.tm_mday,
+         tm.tm_mon + 1,
+         tm.tm_year + 1900,
+         tm.tm_hour,
+         tm.tm_min,
+         tm.tm_sec
 	);
-
-	return std::string(buf);
 	
 }

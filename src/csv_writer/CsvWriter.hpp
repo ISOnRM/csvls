@@ -29,7 +29,7 @@ class CsvWriter {
 	std::ostream& out_;
     char delimiter_;
 
-	std::string quote(const std::string& text);
+	std::string quote(const std::string& text) const;
 
 	void print_options() const;
 	void print_entries() const;

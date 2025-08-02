@@ -3,6 +3,7 @@
 
 #include <filesystem>
 #include <stdexcept>
+#include <format>
 #include "ArgumentChecker.hpp"
 #include "help.hpp"
 
