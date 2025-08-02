@@ -108,6 +108,9 @@ void CsvWriter::print_entries() const {
 				case Option::ShowSize:
 					out_ << get_size_str(entry.stats);
 					break;
+				case Option::ShowBlocks:
+					out_ << entry.stats.st_blocks;
+					break;
 				case Option::ShowAccessTime:
 					out_ << get_time_str(entry.stats.st_atim);
 					break;
