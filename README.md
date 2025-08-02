@@ -355,6 +355,7 @@ D,mark,users,4.0K,./ThisIsADir
 
   I learned the hard way that if you don't sit down, think, and outline a project's structure on paper beforehand, actual coding becomes a Sisyphean task.
   This would have been ten times easier if I had done so, but unfortunately I did not.
+  This is my first ever C++ project of a somewhat decent size. In the process I learned that I love C a lot more.
 
 ## License
 
