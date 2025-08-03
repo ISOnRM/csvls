@@ -9,18 +9,18 @@ inline void print_help() {
     std::cerr << "Usage:\n";
     std::cerr << "  program [options] <targets>...\n\n";
     std::cerr << "Description:\n";
-    std::cerr << "  Targets are given without a leading \"-\" and must be existing directories to scan.\n\n";
+    std::cerr << "  Targets are given without a leading \"-\" and must be existing directories or files to scan.\n\n";
     std::cerr << "Options:\n";
     std::cerr << "  -h, --help           Show this help message and exit."
 	"\nIf -h is among other options, they will be ignored\n";
     std::cerr << "  -d, --show-dev       Display device ID.\n";
     std::cerr << "  -I, --show-inode     Display inode number.\n";
     std::cerr << "  -t, --show-type      Display file type.\n";
-    std::cerr << "  -p, --show-perms     Display file permissions.\n";
+    std::cerr << "  -p, --show-perms     Display human readable file permissions.\n";
     std::cerr << "  -n, --show-nlinks    Display number of hard links.\n";
-    std::cerr << "  -O, --show-owner     Display owner’s user ID.\n";
+    std::cerr << "  -O, --show-owner     Display owner's user ID.\n";
     std::cerr << "  -g, --show-group     Display group ID.\n";
-    std::cerr << "  -s, --show-size      Display size in bytes.\n";
+    std::cerr << "  -s, --show-size      Display size in human readable units.\n";
     std::cerr << "  -b, --show-blocks    Display number of blocks.\n";
     std::cerr << "  -a, --show-access-time Display last access time.\n";
     std::cerr << "  -m, --show-mod-time  Display last modification time.\n";
