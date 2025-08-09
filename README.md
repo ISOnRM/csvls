@@ -10,7 +10,7 @@ It provides flexible options to display file metadata such as type, owner, group
 
 ### Build from source
 
-Clone the repository and build with **make**:
+Clone the repository and build with **cmake**:
 
 ```bash
 git clone -b cmake --single-branch https://github.com/ISOnRM/csvls.git
