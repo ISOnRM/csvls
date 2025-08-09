@@ -15,8 +15,9 @@ Clone the repository and build with **make**:
 ```bash
 git clone https://github.com/ISOnRM/csvls.git
 cd csvls
-make -j
-sudo make install
+cmake -S . -B build/
+cmake --build build/ -j 
+sudo cmake --install build/
 ```
 
 ---
