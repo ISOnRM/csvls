@@ -90,8 +90,20 @@ void Assembler::traverse_dir(const std::string& dir_path) {
 }
 
 void Assembler::add_entry(const std::string& full_path, const struct stat& sb) {
-	entries_.emplace_back(
-		use_canonical_ ? fs::canonical(full_path).string() : full_path,
-		sb
-	);
+	// entries_.emplace_back(
+	// 	use_canonical_ ? fs::canonical(full_path).string() : full_path,
+	// 	sb
+	// );
+	if (use_canonical_) {
+		std::error_code err;
+		auto entry_path = fs::canonical(full_path, err);
+		if (!err) {
+			entries_.emplace_back(entry_path.string(), sb);
+		} else {
+			entries_.emplace_back(fs::weakly_canonical(full_path), sb);
+		}
+	}
+	else {
+		entries_.emplace_back(full_path, sb);
+	}
 }

@@ -2,10 +2,8 @@
 
 #include <array>
 #include <list>
-#include <tuple>
 #include <iostream>
 #include <iomanip>
-#include <functional>
 #include <cmath>
 #include <cstring>
 #include <ctime>

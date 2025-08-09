@@ -18,7 +18,9 @@ int main(int argc, char **argv) {
 		// Write (to stdout) CSV
 		// Two last arguments are ostream and delimiter respectively
 		// Their default valueas are cout and ',' respectively
-		CsvWriter csv_writer(entries, parsed_arguments.options); 
+		// You can use std::cerr as a different output stream
+		// if buffering is too slow on the default option (std::cout)
+		CsvWriter csv_writer(entries, parsed_arguments.options);
 		csv_writer.print_results();
 
     } catch (std::invalid_argument& err) {
