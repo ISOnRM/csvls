@@ -1,6 +1,5 @@
 // ArgumentChecker.cpp
 // Implementation of ArgumentChecker.hpp bundle
-
 #include <filesystem>
 #include <stdexcept>
 #include <format>

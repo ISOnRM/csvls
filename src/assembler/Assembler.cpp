@@ -5,8 +5,6 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <cerrno>
-#include <cstring>
-#include <stdexcept>
 #include <list>
 #include "../aliases_and_concepts/using.hpp"
 #include "../cli/Option.hpp"

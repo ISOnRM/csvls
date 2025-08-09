@@ -1,13 +1,9 @@
 // ArgumentParser.cpp
 // An implementation of ArgumentParser.hpp
-#include <string>
 #include <array>
 #include <string_view>
-#include <forward_list>
-#include <tuple>
 #include <stdexcept>
 #include <format>
-#include <ranges>
 #include "ArgumentParser.hpp"
 
 ArgumentParser::ArgumentParser(int argc, char **argv) {
