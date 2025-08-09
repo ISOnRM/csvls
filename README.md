@@ -23,6 +23,10 @@ sudo make install
 
 ## TL;DR
 
+<img width="884" height="270" alt="image" src="https://github.com/user-attachments/assets/e18eedc0-7608-4588-82b4-f6c7a838f647" />
+
+Command: 
+
 ```bash
 csvls -gOst -S
 ```
@@ -31,10 +35,11 @@ Output:
 
 ```csv
 type,owner,group,size,path
-D,mark,users,4.0K,.
-F,mark,users,0B,./ThisIsAFile
-L,mark,users,12B,./ThisIsALink
-D,mark,users,4.0K,./ThisIsADir
+D,mark,mark,4.0K,.
+F,mark,mark,0B,./IAmAFile
+P,mark,mark,0B,./IAmAFifo
+L,mark,mark,9B,./IAmALink
+D,mark,mark,4.0K,./IAmADir
 ```
 
 ---
