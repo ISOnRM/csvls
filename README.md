@@ -356,6 +356,10 @@ D,mark,users,4.0K,./ThisIsADir
   * `assembler/` → Class that collects entries and calls `stat`
   * `csv_writer/` → Class that writes CSV output to stdout
 
+## Upcoming features
+  * An ability to see raw (octal) entry's permissions
+  * An ability to see size in bytes instead of human readable units
+  * An ability to see raw time (Any st_*time member)
 
 ## Harsh lesson
 
