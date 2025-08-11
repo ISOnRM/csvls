@@ -33,7 +33,7 @@ void ArgumentParser::parse_option(std::string_view& arg) {
 	else if (dashes == 1) {
 		for (char c : arg) 	parsed_options_.emplace_back(deduce_short_option(c));
 	}
-	else throw std::invalid_argument(std::format("Invalid argument format: {}", arg));
+	else throw std::invalid_argument(std::format("Invalid argument format: {}\n", arg));
 }
 
 void ArgumentParser::parse_target(std::string_view& arg) {
@@ -70,7 +70,7 @@ Option ArgumentParser::deduce_full_option(const std::string_view& arg) {
     for (const auto& [arg_name, option] : mapping ) {
 		if (arg == arg_name) return option;
 	}
-	throw std::invalid_argument(std::format("Unknown option \"--{}\"", arg));
+	throw std::invalid_argument(std::format("Unknown option \"--{}\"\n", arg));
 }
 
 Option ArgumentParser::deduce_short_option(const char c) {
@@ -94,6 +94,6 @@ Option ArgumentParser::deduce_short_option(const char c) {
     case 'r': return Option::Recursive;
 	case 'C': return Option::Color; // add color
 	default:
-		throw std::invalid_argument(std::format("Unknown option \"-{}\"", c));
+		throw std::invalid_argument(std::format("Unknown option \"-{}\"\n", c));
     }
 }

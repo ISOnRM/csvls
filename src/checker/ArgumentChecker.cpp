@@ -58,6 +58,6 @@ namespace ArgumentChecker {
 		}
 
 		if (targets.empty()) 
-			throw std::invalid_argument("No valid targets specified after validation");
+			throw std::invalid_argument("No valid targets specified after validation\n");
 	}
 }
