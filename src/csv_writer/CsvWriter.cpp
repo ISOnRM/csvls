@@ -16,46 +16,74 @@
 #include <pwd.h>
 #include <grp.h>
 #include <unistd.h>
+#include <fmt/core.h>
+#include <fmt/color.h>
 #include "../assembler/Assembler.hpp"
 #include "../cli/Option.hpp"
 #include "CsvWriter.hpp"
 
-CsvWriter::CsvWriter(const Entries &entries,
-                     const ParsedOptions &options,
-                     std::ostream &out, char delimiter)
-    : entries_{entries}, options_{options}, out_{out}, delimiter_{delimiter} {}
+namespace {
+    constexpr fmt::color color_of(Option o) noexcept {
+        using C = fmt::color;
+        switch (o) {
+            case Option::Name:
+            case Option::Canonical:       return C::deep_sky_blue;
+            case Option::ShowType:        return C::yellow;
+            case Option::ShowPerms:       return C::lime_green;
+            case Option::ShowNLinks:      return C::pale_violet_red;
+            case Option::ShowOwner:       return C::purple;
+            case Option::ShowGroup:       return C::orange;
+            case Option::ShowSize:        return C::turquoise;
+            case Option::ShowAccessTime:  return C::violet;
+            case Option::ShowModTime:     return C::light_golden_rod_yellow;
+            case Option::ShowMetaModTime: return C::teal;
+            case Option::ShowInode:       return C::indigo;
+            case Option::ShowBlocks:      return C::pink;
+            case Option::ShowDev:         return C::coral;
+            default:                      return C::white;
+        }
+    }
+}
 
-const char *CsvWriter::column_name(Option option) noexcept {
+
+CsvWriter::CsvWriter(const Entries &entries,
+                     ParsedOptions &options,
+                     std::ostream &out, char delimiter)
+    : entries_{entries}, options_{options}, out_{out}, delimiter_{delimiter} {
+		// add color handling
+		if (options_.find(Option::Color)) {
+			use_color_ = true;
+			options_.get_list().remove(Option::Color);
+		} else {
+			use_color_ = false;
+		}
+	}
+
+std::string CsvWriter::column_name(Option option) const noexcept {
+    auto paint  = [](fmt::color c, std::string_view s) {
+        return fmt::format(fmt::fg(c), "{}", s);
+    };
+    auto plain = [](fmt::color, std::string_view s) {
+        return std::string{s};
+    };
+    auto use = use_color_ ? paint : plain;
+
     switch (option) {
-    case Option::Name:
-	case Option::Canonical:
-        return "path";
-    case Option::ShowType:
-        return "type";
-    case Option::ShowPerms:
-        return "permissions";
-    case Option::ShowNLinks:
-        return "links";
-    case Option::ShowOwner:
-        return "owner";
-    case Option::ShowGroup:
-        return "group";
-    case Option::ShowSize:
-        return "size";
-    case Option::ShowAccessTime:
-        return "access_time";
-    case Option::ShowModTime:
-        return "mod_time";
-    case Option::ShowMetaModTime:
-        return "meta_mod_time";
-    case Option::ShowInode:
-        return "inode";
-	case Option::ShowBlocks:
-		return "blocks";
-    case Option::ShowDev:
-        return "device";
-    default:
-        return "";
+        case Option::Name:
+        case Option::Canonical:         return use(color_of(option), "path");
+        case Option::ShowType:          return use(color_of(option), "type");
+        case Option::ShowPerms:         return use(color_of(option), "permissions");
+        case Option::ShowNLinks:        return use(color_of(option), "links");
+        case Option::ShowOwner:         return use(color_of(option), "owner");
+        case Option::ShowGroup:         return use(color_of(option), "group");
+        case Option::ShowSize:          return use(color_of(option), "size");
+        case Option::ShowAccessTime:    return use(color_of(option), "access_time");
+        case Option::ShowModTime:       return use(color_of(option), "mod_time");
+        case Option::ShowMetaModTime:   return use(color_of(option), "meta_mod_time");
+        case Option::ShowInode:         return use(color_of(option), "inode");
+        case Option::ShowBlocks:        return use(color_of(option), "blocks");
+        case Option::ShowDev:           return use(color_of(option), "dev");
+        default:                        return {};
     }
 }
 
@@ -77,61 +105,90 @@ void CsvWriter::print_options() const {
         }
         out_ << '\n';
 }
-void CsvWriter::print_entries() const {
-	for (const Entry& entry : entries_) {
-		bool first = true;
-		for (const Option option : options_) {
-			if (!first) out_ << delimiter_;
-			first = false;
 
-			switch (option) {
-				case Option::Name:
-				case Option::Canonical:
-					out_ << quote(entry.name);
-					break;
-				case Option::ShowType:
-					out_ << get_type_char(entry.stats); break;
-				case Option::ShowPerms: {
-						const auto perms = get_perms_arr(entry.stats);
-						out_.write(perms.data(), perms.size());
-						break;
-					}
-				case Option::ShowNLinks:
-					out_ << entry.stats.st_nlink;
-					break;
-				case Option::ShowOwner:
-					out_ << get_owner_str(entry.stats);
-					break;
-				case Option::ShowGroup:
-					out_ << get_group_str(entry.stats);
-					break;
-				case Option::ShowSize:
-					out_ << get_size_str(entry.stats);
-					break;
-				case Option::ShowBlocks:
-					out_ << entry.stats.st_blocks;
-					break;
-				case Option::ShowAccessTime:
-					out_ << get_time_str(entry.stats.st_atim);
-					break;
-				case Option::ShowModTime:
-					out_ << get_time_str(entry.stats.st_mtim);
-					break;
-				case Option::ShowMetaModTime:
-					out_ << get_time_str(entry.stats.st_ctim);
-					break;
-				case Option::ShowInode:
-					out_ << entry.stats.st_ino;
-					break;
-				case Option::ShowDev:
-					out_ << entry.stats.st_dev;
-					break;
-				default:
-					break;
-			}
-		}
-		out_ << '\n';
-	}
+void CsvWriter::print_entries() const {
+    auto paint  = [](fmt::color c, std::string_view s) {
+        return fmt::format(fmt::fg(c), "{}", s);
+    };
+    auto plain = [](fmt::color, std::string_view s) {
+        return std::string{s};
+    };
+    auto use = use_color_ ? paint : plain;
+
+    for (const Entry& entry : entries_) {
+        bool first = true;
+        for (const Option option : options_) {
+            if (!first) out_ << delimiter_;
+            first = false;
+
+            const auto col = color_of(option);
+
+            switch (option) {
+                case Option::Name:
+                case Option::Canonical: {
+                    const auto q = quote(entry.name);
+                    out_ << use(col, q);
+                    break;
+                }
+
+                case Option::ShowType: {
+                    const char t = get_type_char(entry.stats);
+                    out_ << use(col, fmt::format("{}", t));
+                    break;
+                }
+
+                case Option::ShowPerms: {
+                    const auto perms = get_perms_arr(entry.stats);
+                    out_ << use(col, std::string_view(perms.data(), perms.size()));
+                    break;
+                }
+
+                case Option::ShowNLinks:
+                    out_ << use(col, fmt::format("{}", entry.stats.st_nlink));
+                    break;
+
+                case Option::ShowOwner:
+                    out_ << use(col, get_owner_str(entry.stats));
+                    break;
+
+                case Option::ShowGroup:
+                    out_ << use(col, get_group_str(entry.stats));
+                    break;
+
+                case Option::ShowSize:
+                    out_ << use(col, get_size_str(entry.stats));
+                    break;
+
+                case Option::ShowBlocks:
+                    out_ << use(col, fmt::format("{}", entry.stats.st_blocks));
+                    break;
+
+                case Option::ShowAccessTime:
+                    out_ << use(col, get_time_str(entry.stats.st_atim));
+                    break;
+
+                case Option::ShowModTime:
+                    out_ << use(col, get_time_str(entry.stats.st_mtim));
+                    break;
+
+                case Option::ShowMetaModTime:
+                    out_ << use(col, get_time_str(entry.stats.st_ctim));
+                    break;
+
+                case Option::ShowInode:
+                    out_ << use(col, fmt::format("{}", entry.stats.st_ino));
+                    break;
+
+                case Option::ShowDev:
+                    out_ << use(col, fmt::format("{}", entry.stats.st_dev));
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        out_ << '\n';
+    }
 }
 
 std::string CsvWriter::quote(const std::string& text) const {
@@ -235,7 +292,7 @@ std::string CsvWriter::get_time_str(const struct timespec& ts) const noexcept {
 
 	localtime_r(&sec, &tm);
 	
-	return std::format(
+	return fmt::format(
 		"{:02d}-{:02d}-{:04d} {:02d}:{:02d}:{:02d}",
          tm.tm_mday,
          tm.tm_mon + 1,

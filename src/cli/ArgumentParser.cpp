@@ -63,7 +63,8 @@ Option ArgumentParser::deduce_full_option(const std::string_view& arg) {
         {"show-blocks", Option::ShowBlocks},
         {"show-dev", Option::ShowDev},
         {"sort", Option::Sort},
-        {"recursive", Option::Recursive}
+        {"recursive", Option::Recursive},
+		{"color", Option::Color} // add color
 	}};
 
     for (const auto& [arg_name, option] : mapping ) {
@@ -91,6 +92,7 @@ Option ArgumentParser::deduce_short_option(const char c) {
     case 'c': return Option::Canonical;
     case 'S': return Option::Sort;
     case 'r': return Option::Recursive;
+	case 'C': return Option::Color; // add color
 	default:
 		throw std::invalid_argument(std::format("Unknown option \"-{}\"", c));
     }

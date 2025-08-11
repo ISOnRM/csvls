@@ -9,6 +9,7 @@
 #include <tuple>
 #include <iostream>
 #include <functional>
+#include <fmt/color.h>
 #include "../assembler/Assembler.hpp"
 #include "../cli/Option.hpp"
 
@@ -17,7 +18,7 @@ using PrinterFunction = std::function<void(const Entry&, std::ostream&)>;
 class CsvWriter {
   public:
     // Constructor
-    CsvWriter(const Entries &entries, const ParsedOptions &options,
+    CsvWriter(const Entries &entries, ParsedOptions &options,
               std::ostream &out = std::cout, char delimiter = ',');
 
     // Print in a passed formation
@@ -25,16 +26,17 @@ class CsvWriter {
 
   private:
     const Entries entries_;
-    const ParsedOptions options_;
+    ParsedOptions options_;
 	std::ostream& out_;
     char delimiter_;
+	bool use_color_;
 
 	std::string quote(const std::string& text) const;
 
 	void print_options() const;
 	void print_entries() const;
 
-	static const char* column_name(Option option) noexcept;
+	std::string column_name(Option option) const noexcept;
 
 	PrinterFunction deduce_printer_function(const Option option) const;
     char get_type_char(const struct stat& stats) const noexcept;

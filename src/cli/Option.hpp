@@ -2,7 +2,7 @@
 // An enum for parsing command line arguments
 #ifndef OPTION_HPP
 #define OPTION_HPP
-#define AMOUNT_OF_OPTIONS 17
+#define AMOUNT_OF_OPTIONS 18
 #define AMOUNT_OF_PRINTABLES 13
 enum class Option {
     ShowType,        // st_mode
@@ -23,7 +23,8 @@ enum class Option {
     // other options
     Sort, // sort the list of options
 	Help, // show help menu
-	Recursive // enable recursion when walking dirs
+	Recursive, // enable recursion when walking dirs
+	Color // show colored output
 };
 
 #endif
