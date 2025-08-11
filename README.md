@@ -24,7 +24,7 @@ sudo cmake --install build/
 
 ## TL;DR
 
-<img width="884" height="270" alt="image" src="https://github.com/user-attachments/assets/e18eedc0-7608-4588-82b4-f6c7a838f647" />
+<img width="884" height="270" alt="image" src="https://github.com/user-attachments/assets/1a185f4b-cc0e-4ea2-91f9-7c4998f9d504" />
 
 Command: 
 
