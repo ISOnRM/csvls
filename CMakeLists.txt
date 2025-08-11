@@ -32,6 +32,7 @@ FetchContent_Declare(
 	GIT_TAG 11.2.0
 )
 
+set(FMT_INSTALL OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(fmt)
 
 #cli
