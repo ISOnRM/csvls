@@ -66,7 +66,7 @@ std::string CsvWriter::column_name(Option option) const noexcept {
     auto plain = [](fmt::color, std::string_view s) {
         return std::string{s};
     };
-    auto use = use_color_ ? paint : plain;
+    auto use = (use_color_ && isatty(STDOUT_FILENO)) ? paint : plain; // add isatty
 
     switch (option) {
         case Option::Name:
@@ -113,7 +113,7 @@ void CsvWriter::print_entries() const {
     auto plain = [](fmt::color, std::string_view s) {
         return std::string{s};
     };
-    auto use = use_color_ ? paint : plain;
+    auto use = (use_color_ && isatty(STDOUT_FILENO)) ? paint : plain; // add isatty
 
     for (const Entry& entry : entries_) {
         bool first = true;

@@ -29,7 +29,7 @@ inline void print_help() {
     std::cerr << "  -c, --canonical      	Display canonical path.\n";
     std::cerr << "  -S, --sort           	Sort output by selected options.\n";
     std::cerr << "  -r, --recursive      	Enable recursive directory traversal.\n";
-	std::cerr << "  -C, --color      	 	Enable coloring. Works bad when outputed to a file.\n\n";
+	std::cerr << "  -C, --color      	 	Enable coloring.\n\n";
 	std::cerr << "  Look up command examples on github ISOnRM/csvls\n";
 }
 #endif
