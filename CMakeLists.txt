@@ -32,7 +32,7 @@ FetchContent_Declare(
 	GIT_TAG 11.2.0
 )
 
-set(FMT_INSTALL OFF CACHE BOOL "" FORCE)
+#set(FMT_INSTALL OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(fmt)
 
 #cli
@@ -78,7 +78,7 @@ target_compile_options(
 
 target_link_libraries(
 	csv_writer
-	PRIVATE fmt::fmt
+	PUBLIC fmt::fmt
 )
 
 #executable
