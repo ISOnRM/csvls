@@ -13,7 +13,7 @@ It provides flexible options to display file metadata such as type, owner, group
 Clone the repository and build with **cmake**:
 
 ```bash
-git clone -b cmake --single-branch https://github.com/ISOnRM/csvls.git
+git clone -b color --single-branch https://github.com/ISOnRM/csvls.git
 cd csvls
 cmake -S . -B build/
 cmake --build build/ -j 
