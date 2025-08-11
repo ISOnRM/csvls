@@ -31,9 +31,5 @@ target_include_directories(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
 
-include(GNUInstallDirs)
 
-install(
-	TARGETS csvls
-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+install(TARGETS csvls)
